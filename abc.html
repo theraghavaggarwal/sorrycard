@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0c4);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Floating Hearts */
+
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    animation:float 8s linear infinite;
+    opacity:.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh) scale(.5);
+        opacity:0;
+    }
+    20%{opacity:1;}
+    to{
+        transform:translateY(-120px) scale(1.5);
+        opacity:0;
+    }
+}
+
+/* Envelope */
+
+.envelope{
+    width:260px;
+    height:170px;
+    background:#fff;
+    position:relative;
+    cursor:pointer;
+    border-radius:8px;
+    box-shadow:0 15px 30px rgba(0,0,0,.3);
+    transition:.5s;
+}
+
+.envelope:hover{
+    transform:scale(1.05);
+}
+
+.flap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#ff5c8a;
+    clip-path:polygon(0 0,100% 0,50% 55%);
+    transform-origin:top;
+    transition:1s;
+}
+
+.paper{
+    position:absolute;
+    width:92%;
+    height:92%;
+    left:4%;
+    top:4%;
+    background:white;
+    border-radius:5px;
+    padding:20px;
+    overflow:auto;
+    transform:translateY(80%);
+    transition:1s;
+}
+
+.open .flap{
+    transform:rotateX(180deg);
+}
+
+.open .paper{
+    transform:translateY(-10%);
+}
+
+#letter{
+    white-space:pre-wrap;
+    line-height:1.7;
+    color:#444;
+    font-size:17px;
+}
+
+.controls{
+    position:absolute;
+    bottom:25px;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+button:hover{
+    background:#e6395c;
+}
+
+h2{
+    text-align:center;
+    color:#ff4d6d;
+    margin-bottom:15px;
+}
+</style>
+</head>
+<body>
+
+<div id="envelope" class="envelope">
+    <div class="flap"></div>
+
+    <div class="paper">
+        <h2>❤️ I'm Sorry ❤️</h2>
+        <div id="letter"></div>
+    </div>
+</div>
+
+<div class="controls">
+    <button onclick="restart()">Replay Letter</button>
+</div>
+
+<!-- Optional Music -->
+<audio id="music" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const text=`Dear,
+
+I wanted to say I'm sorry for the way things have turned out between us.
+
+Even though I don't feel that I intentionally did anything wrong, I understand that something I said or did may have hurt or upset you, and I genuinely regret that.
+
+It was never my intention to make you feel bad or uncomfortable.
+
+If my actions or words affected you in a way I didn't realize, I sincerely apologize.
+
+I respect your feelings and hope we can move forward with understanding.
+
+Take care, and I wish you happiness.
+
+❤️`;
+
+const letter=document.getElementById("letter");
+const envelope=document.getElementById("envelope");
+const music=document.getElementById("music");
+
+let index=0;
+
+function typeWriter(){
+
+letter.innerHTML="";
+
+index=0;
+
+let timer=setInterval(()=>{
+
+letter.innerHTML+=text.charAt(index);
+
+index++;
+
+if(index>=text.length)
+clearInterval(timer);
+
+},35);
+
+}
+
+envelope.onclick=()=>{
+
+envelope.classList.add("open");
+
+typeWriter();
+
+music.play().catch(()=>{});
+
+};
+
+function restart(){
+
+letter.innerHTML="";
+
+envelope.classList.remove("open");
+
+setTimeout(()=>{
+envelope.classList.add("open");
+typeWriter();
+},500);
+
+}
+
+// Floating Hearts
+
+function createHeart(){
+
+const heart=document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML="❤";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.fontSize=(15+Math.random()*30)+"px";
+
+heart.style.animationDuration=(5+Math.random()*5)+"s";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),9000);
+
+}
+
+setInterval(createHeart,300);
+
+</script>
+
+</body>
+</html>
